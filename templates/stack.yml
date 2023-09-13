@@ -1,0 +1,16 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Resources:
+  LambdaFunctions:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: https://achint-my-bucket.s3.ap-south-1.amazonaws.com/lambda.yml
+
+  DynamoDBTables:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+        TemplateURL: https://achint-my-bucket.s3.ap-south-1.amazonaws.com/dynamo.yml
+
+  ApiGateway:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+        TemplateURL: https://achint-my-bucket.s3.ap-south-1.amazonaws.com/api.yml

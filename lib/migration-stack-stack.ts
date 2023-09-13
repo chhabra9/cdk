@@ -1,16 +1,24 @@
-import * as cdk from 'aws-cdk-lib';
-import { Construct } from 'constructs';
-// import * as sqs from 'aws-cdk-lib/aws-sqs';
+import * as cdk from '@aws-cdk/core';
+import * as cfn_inc from '@aws-cdk/cloudformation-include';
 
-export class MigrationStackStack extends cdk.Stack {
-  constructor(scope: Construct, id: string, props?: cdk.StackProps) {
+export class MigrationStack extends cdk.Stack {
+  constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
     // The code that defines your stack goes here
-
-    // example resource
-    // const queue = new sqs.Queue(this, 'MigrationStackQueue', {
-    //   visibilityTimeout: cdk.Duration.seconds(300)
-    // });
+    const cfnInclude = new cfn_inc.CfnInclude(this, 'Template', { 
+      templateFile: 'templates/stack.yml',
+      loadNestedStacks: {
+        'ApiGateway': {
+          templateFile: 'templates/api.yml'
+        },
+        'LambdaFunctions': {
+          templateFile: 'templates/lambda.yml'
+        },
+        'DynamoDBTables':{
+          templateFile: 'templates/dynamo.yml'
+        }
+      }
+    });
   }
 }
